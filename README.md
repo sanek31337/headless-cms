@@ -6,7 +6,7 @@ All communications with the headless-cms are in JSON format.
 
 **Installation**:
 
-To setup it necessary to set the proper mysql credentials in the .env file and then simply run composer json inside project directory.
+To setup it necessary to set the proper mysql credentials in the .env file and then simply run composer json in the project directory. And run migrations by command "doctrine:migrations:migrate" to create DB schema with tables. 
 
 **Test demo data**
 
