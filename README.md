@@ -15,7 +15,7 @@ To fill demo data need to run php bin/console doctrine:fixtures:load command ins
 **Features**
 
 The CMS allowed to get list of articles with specific ordering by such fields as 'title', 'body', 'created_at', 'updated_at'. The syntax is following:
-'?sortField=<field>&sortOrder=<order>'. 
+'?sortField=fieldName&sortOrder=order'. 
 
 Also is supported limiting number of returning results by adding '?limit=<value>' parameter in the URL GET request, where <value> is integer value.
 
