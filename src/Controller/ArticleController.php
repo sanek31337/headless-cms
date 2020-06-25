@@ -34,24 +34,13 @@ class ArticleController extends AbstractController
     private const ARTICLE_CREATED_AT = 'created_at';
     private const ARTICLE_UPDATED_AT = 'updated_at';
 
-    private function getRequestData()
-    {
-        $request = Request::createFromGlobals();
-
-        $data = $request->getContent();
-
-        return $data;
-    }
-
     /**
      * @Route("/", methods={"GET"})
      */
-    public function readAll(ArticleRepository $articleRepository)
+    public function readAll(Request $request, ArticleRepository $articleRepository)
     {
         try
         {
-            $request = Request::createFromGlobals();
-
             $sortFieldValue = $request->get(self::SORT_FIELD, 'created_at');
             $sortOrderValue = $request->get(self::SORT_ORDER, 'DESC');
             $limitValue = $request->get(self::LIMIT, 50);
@@ -120,14 +109,12 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/", methods={"PUT", "POST"})
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')", statusCode=504, message="Access forbidden")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')", statusCode=401, message="Access forbidden")
      */
-    public function createArticle()
+    public function createArticle(Request $request)
     {
         try
         {
-            $request = Request::createFromGlobals();
-
             $data = $request->getContent();
 
             $preparedData = $this->transformRequestBody($data, [self::ARTICLE_TITLE, self::ARTICLE_BODY]);
@@ -155,9 +142,9 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/{id}", methods={"PATCH"})
-     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')", statusCode=504, message="Access forbidden")
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')", statusCode=401, message="Access forbidden")
      */
-    public function updateArticle($id, ArticleRepository $articleRepository)
+    public function updateArticle($id, Request $request, ArticleRepository $articleRepository)
     {
         $article = $articleRepository->find($id);
 
@@ -168,8 +155,6 @@ class ArticleController extends AbstractController
 
         try
         {
-            $request = Request::createFromGlobals();
-
             $data = $request->getContent();
 
             $preparedData = $this->transformRequestBody($data, [self::ARTICLE_TITLE, self::ARTICLE_BODY]);
